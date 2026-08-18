@@ -6,6 +6,7 @@ const Product = require("../models/product.model");
 const Business = require("../models/business.model");
 const AppError = require("../utils/AppError");
 
+// אילו סטטוסים מותר לעבור אליהם מכל סטטוס - כדי שלא יהיה אפשר "לדלג" שלבים
 const STATUS_TRANSITIONS = {
   pending: ["confirmed", "cancelled"],
   confirmed: ["preparing", "cancelled"],
@@ -54,6 +55,8 @@ const buildOrderFromCart = async (userId, { addressId, tip }) => {
       );
     }
 
+    // חשוב: המחיר מחושב כאן מהמוצר שנטען עכשיו מה-DB, לא ממה שנשמר בסל
+    // ככה לקוח לא יכול "לזייף" מחיר נמוך יותר על ידי שינוי הבקשה
     const optionsTotal = cartItem.selectedOptions.reduce(
       (sum, opt) => sum + opt.price,
       0,

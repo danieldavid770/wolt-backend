@@ -43,7 +43,7 @@ router.patch(
   uploadProfileImage,
 );
 
-// cart
+// סל קניות
 router.get("/cart", authMiddleware, getCart);
 router.post("/cart/add", authMiddleware, addToCart);
 router.patch("/cart/item/:itemId", authMiddleware, updateCartItem);

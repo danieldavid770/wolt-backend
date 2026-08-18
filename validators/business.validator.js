@@ -27,10 +27,19 @@ const businessSchema = Joi.object({
   isActive: Joi.boolean(),
 });
 
-const businessUpdateSchema = businessSchema.fork(
-  ["name", "category"],
-  (schema) => schema.optional(),
-);
+// בעדכון לא חייבים לשלוח שוב name ו-category, כל שאר השדות נשארים כמו למעלה
+const businessUpdateSchema = Joi.object({
+  name: Joi.string().min(2).max(80),
+  description: Joi.string().max(500).allow(""),
+  imageLogo: Joi.string().uri().allow(null, ""),
+  imageBackup: Joi.string().uri().allow(null, ""),
+  isCosher: Joi.boolean(),
+  label: Joi.string().allow(""),
+  category: objectId,
+  workingHours: Joi.array().items(workingHoursSchema),
+  location: locationSchema,
+  isActive: Joi.boolean(),
+});
 
 const validateBusiness = (data) => {
   const { error } = businessSchema.validate(data);

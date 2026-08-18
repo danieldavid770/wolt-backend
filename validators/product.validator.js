@@ -26,10 +26,18 @@ const productSchema = Joi.object({
   isActive: Joi.boolean(),
 });
 
-const productUpdateSchema = productSchema.fork(
-  ["name", "business", "category", "price"],
-  (schema) => schema.optional(),
-);
+// בעדכון מוצר אפשר לשלוח רק את השדות שרוצים לשנות
+const productUpdateSchema = Joi.object({
+  name: Joi.string().min(2).max(80),
+  business: objectId,
+  category: objectId,
+  image: Joi.string().uri().allow(null, ""),
+  description: Joi.string().max(500).allow(""),
+  price: Joi.number().min(0),
+  optionGroups: Joi.array().items(optionGroupSchema),
+  isPopular: Joi.boolean(),
+  isActive: Joi.boolean(),
+});
 
 const validateProduct = (data) => {
   const { error } = productSchema.validate(data);

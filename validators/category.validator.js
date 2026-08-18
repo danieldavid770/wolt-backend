@@ -11,9 +11,15 @@ const categorySchema = Joi.object({
   isActive: Joi.boolean(),
 });
 
-const categoryUpdateSchema = categorySchema.fork(["name"], (schema) =>
-  schema.optional(),
-);
+// בעדכון כל השדות אופציונליים - לא חייבים לשלוח את כל הקטגוריה מחדש
+const categoryUpdateSchema = Joi.object({
+  name: Joi.string().min(2).max(50),
+  image: Joi.string().uri().allow(null, ""),
+  bizPopular: Joi.boolean(),
+  tags: Joi.array().items(Joi.string()),
+  parentCategory: objectId.allow(null),
+  isActive: Joi.boolean(),
+});
 
 const validateCategory = (categoryData) => {
   const { error } = categorySchema.validate(categoryData);

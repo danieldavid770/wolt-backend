@@ -24,14 +24,14 @@ router.post(
 router.put(
   "/update/:id",
   authMiddleware,
-  checkProductOwner("id"),
+  checkProductOwner,
   updateProduct,
 );
 
 router.delete(
   "/delete/:id",
   authMiddleware,
-  checkProductOwner("id"),
+  checkProductOwner,
   deleteProduct,
 );
 

@@ -15,10 +15,19 @@ const bannerSchema = Joi.object({
   }),
 });
 
-const bannerUpdateSchema = bannerSchema.fork(
-  ["name", "startDate", "endDate"],
-  (schema) => schema.optional(),
-);
+// בעדכון באנר כל השדות אופציונליים
+const bannerUpdateSchema = Joi.object({
+  name: Joi.string().min(2).max(80),
+  description: Joi.string().max(300).allow(""),
+  image: Joi.string().uri().allow(null, ""),
+  startDate: Joi.date(),
+  endDate: Joi.date().greater(Joi.ref("startDate")),
+  isActive: Joi.boolean(),
+  link: Joi.object({
+    business: objectId.allow(null),
+    category: objectId.allow(null),
+  }),
+});
 
 const validateBanner = (data) => {
   const { error } = bannerSchema.validate(data);

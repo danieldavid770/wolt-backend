@@ -1,4 +1,4 @@
-# Wolt Backend — Delivery Ordering API
+# שרת Backend בסגנון Wolt
 
 שרת Express + MongoDB/Mongoose בסגנון Wolt: קטגוריות → עסקים → מוצרים → סל קניות →
 כתובת → הזמנה, עם הרשאות לפי תפקיד (`user` / `business` / `admin`) ומחיר שמחושב

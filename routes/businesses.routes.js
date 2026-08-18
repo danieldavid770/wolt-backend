@@ -32,14 +32,14 @@ router.post(
 router.put(
   "/update/:id",
   authMiddleware,
-  checkBusinessOwner("id"),
+  checkBusinessOwner,
   updateBusiness,
 );
 
 router.delete(
   "/delete/:id",
   authMiddleware,
-  checkBusinessOwner("id"),
+  checkBusinessOwner,
   deleteBusiness,
 );
 

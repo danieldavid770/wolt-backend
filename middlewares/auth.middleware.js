@@ -3,10 +3,7 @@ const jwt = require("jsonwebtoken");
 const SECRET_KEY = process.env.SECRET_KEY || "your_secret_key_here";
 
 const authMiddleware = (req, res, next) => {
-
   const token = req.headers["x-api-key"];
-
-    // console.log("Token:", token);
 
   if (!token) {
     return res.status(401).json({
@@ -15,12 +12,7 @@ const authMiddleware = (req, res, next) => {
   }
 
   try {
-    const decoded = jwt.verify(
-      token,
-      SECRET_KEY
-    );
-
-    // console.log("Decoded token:", decoded);
+    const decoded = jwt.verify(token, SECRET_KEY);
 
     req.user = decoded;
 
@@ -42,14 +34,4 @@ const checkAdmin = (req, res, next) => {
   next();
 };
 
-const checkManager = (req, res, next) => {
-  if (req.user.role !== "manager" && req.user.role !== "admin") {
-    return res.status(403).json({
-      message: "Access denied",
-    });
-  }
-
-  next();
-};
-
-module.exports = { checkAdmin, checkManager, authMiddleware };
+module.exports = { checkAdmin, authMiddleware };

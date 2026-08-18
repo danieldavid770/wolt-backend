@@ -19,6 +19,8 @@ const app = express();
 app.use(helmet());
 app.use(apiLimiter);
 app.use(express.json());
+// אם בקשה מגיעה בלי Content-Type תקין, express.json() לא ממלא req.body
+// בלי השורה הזו, ה-validators (Joi) פשוט "עוברים" כי אין להם על מה לבדוק
 app.use((req, res, next) => {
   if (!req.body) {
     req.body = {};
@@ -26,7 +28,6 @@ app.use((req, res, next) => {
 
   next();
 });
-// app.use(logger);
 
 app.use("/users", usersRoutes);
 app.use("/categories", categoriesRoutes);

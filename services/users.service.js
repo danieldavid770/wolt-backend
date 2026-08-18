@@ -147,6 +147,7 @@ const addToCart = async (userId, { productId, quantity, selectedOptions }) => {
 
   const user = await User.findById(userId);
 
+  // כמו ב-Wolt האמיתי - אי אפשר שיהיו בסל מוצרים משני עסקים שונים בו-זמנית
   const conflictingBusiness = user.cart.find(
     (item) => !item.business.equals(product.business._id),
   );
